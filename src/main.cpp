@@ -18,58 +18,28 @@
 #include <QApplication>
 #include <QSplashScreen>
 #include <QTimer>
-// #include <QWSServer>  // needed to hide cursor  // !!! TESTING PURPOSE ONLY
+// #include <QWSServer>  // needed to hide cursor DEBUG ONLY
 
 #include "windows/mainwindow.h"
-#include "virtualcan/canbus.h"  // !!! TESTING PURPOSE ONLY
+#include "virtualcan/canbus.h"  // DEBUG ONLY
 #include "bitalino/bitalino.h"
 
-
-#define isDesktop 1
-#define splashScreen 0
-
-/*
-void modBluetooth() {
-    const char *macAddress = "98:D3:31:B2:C1:16";
-    try {
-            qDebug() << "Connecting to " <<  macAddress << " device\n";
-            BITalino dev("98:D3:31:B2:C1:16");
-            qDebug() << "[!] Connected to " <<  macAddress << " device\n";
-
-            dev.start(1000, {0, 1, 2, 3, 4, 5});
-            BITalino::VFrame frames(100);
-
-            while (true) {
-                // get reference to first frame
-                dev.read(frames);
-                const BITalino::Frame &f = frames[0];
-
-                dev.sendCanMessage(dev.sequence_code, f.seq);
-
-                printf("%d : %d %d %d %d ; %d %d %d %d %d %d\n",
-                        f.seq,
-                        f.digital[0], f.digital[1], f.digital[2], f.digital[3],
-                        f.analog[0], f.analog[1], f.analog[2], f.analog[3], f.analog[4], f.analog[5]);
-            }
-    } catch(BITalino::Exception &e) {
-            qDebug() << "Not connected to " <<  macAddress << " device\n";
-            qDebug() << "[!] BITalino exception: " << e.getDescription();
-    }
-}
+#define HAS_CAN 0  // DEBUG ONLY
+#define is_splash_Screen 1
+#define BITALINO_ADDRESS "98:D3:31:B2:C1:16"
 
 
-void sampleBluetooth() {
+void bitalinoSample() {
     const char *macAddress = "98:D3:31:B2:C1:16";
     try {
         puts("Connecting to device...");
-
         BITalino dev(macAddress);
-
         puts("Connected to device. Press Enter to exit.");
         std::string ver = dev.version();     // get device version string
         printf("BITalino version: %s\n", ver.c_str());
         dev.battery(10);  // set battery threshold (optional)
-        // dev.start(1000, {0, 1, 2, 3, 4, 5});    // start acquisition of all channels at 1000 Hz
+
+        dev.start(1000, {0, 1, 2, 3, 4, 5});    // start acquisition of all channels at 1000 Hz
         BITalino::VFrame frames(100); // initialize the frames vector with 100 frames
         do
         {
@@ -85,10 +55,10 @@ void sampleBluetooth() {
         printf("BITalino exception: %s\n", e.getDescription());
     }
 }
-*/
+
 
 int main(int argc, char *argv[]) {    
-    /*  // !!! TESTING PURPOSE ONLY
+    /*  // DEBUG ONLY
      * #ifdef Q_WS_QWS  // this line
      * QWSServer::setCursorVisible(false);  // and this
      * #endif //and this, are needed to hide the cursor
@@ -102,8 +72,8 @@ int main(int argc, char *argv[]) {
     app.setApplicationName(QString::fromUtf8("GUI"));
     MainWindow *window = new MainWindow();  // create new window
 
-    if (splashScreen) {  // make splash screen turn up
-        QSplashScreen splash(QPixmap("../src/res/share/logo.png"));  // deploy splash screen
+    if (is_splash_Screen) {  // make splash screen turn up
+        QSplashScreen splash(QPixmap("../res/logo.png"));  // deploy splash screen
         QTimer down_window;  // timer to keep window hidden
         down_window.setSingleShot(true);
         down_window.setInterval(1500);
@@ -119,19 +89,17 @@ int main(int argc, char *argv[]) {
         msg_splash.setInterval(900);
         QObject::connect(&msg_splash, SIGNAL(timeout() ), &splash, SLOT( close()) );
 
-        // start timer
         down_window.start();
         up_splash.start();
         splash.show();
     }
 
-    if (isDesktop) {
+    if (!HAS_CAN) {
         VirtualCan *virtualCan = new VirtualCan("vcan0", 100, 1000);  // ask virtual can to start and send each 100ms a message for a total of 1000 times
         virtualCan->start();  // start virtual can
-    } else {
-        // start bitalino module  // !!! TESTING PURPOSE ONLY
-        // const char *macAddress = "98:D3:31:B2:C1:16";
-        // modBluetooth();
+
+        // start bitalino module
+        // bitalinoSample();  // DEBUG ONLY
     }
 
     window->show();

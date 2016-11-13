@@ -65,7 +65,7 @@ void CanWorkerThread::run() {
     while(m_running) {
         // This call will block but only for one sec to let us abort if m_running = false
         // errorCode is errors related to socket problems, error is can related problems like bus-off
-        ret = m_can->GetMsg(msg, extended, rtr, error, errorCode, tv);
+        ret = m_can->GetMsg(msg, extended, rtr, error, errorCode);
 
         if(ret) {
             int valueID;

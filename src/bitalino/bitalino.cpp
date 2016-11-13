@@ -30,7 +30,6 @@
 #include <unistd.h>
 
 #ifdef HASBLUETOOTH  // Linux only
-
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/rfcomm.h>
 #include <bluetooth/hci.h>
@@ -79,62 +78,6 @@ BITalino::VDevInfo BITalino::find(void)
    VDevInfo devs;
    DevInfo  devInfo;
 
-#ifdef _WIN32
-   char     addrStr[40];
-	WSADATA  m_data;
-
-   if (WSAStartup(0x202, &m_data) != 0)	throw Exception(Exception::PORT_INITIALIZATION);
-
-  WSAQUERYSETA querySet;
-  ZeroMemory(&querySet, sizeof querySet);
-  querySet.dwSize = sizeof(querySet);
-  querySet.dwNameSpace = NS_BTH;
-  
-  HANDLE hLookup;
-  DWORD flags = LUP_CONTAINERS | LUP_RETURN_ADDR | LUP_RETURN_NAME | LUP_FLUSHCACHE;
-  bool tryempty = true;
-  bool again;
-
-  do
-  {
-	  again = false;
-     if (WSALookupServiceBeginA(&querySet, flags, &hLookup) != 0)
-     {
-        WSACleanup();
-        throw Exception(Exception::BT_ADAPTER_NOT_FOUND);
-     }
-  
-	  while (1)
-     {
-        BYTE buffer[1500];
-        DWORD bufferLength = sizeof(buffer);
-        WSAQUERYSETA *pResults = (WSAQUERYSETA*)&buffer;
-        if (WSALookupServiceNextA(hLookup, flags, &bufferLength, pResults) != 0)	break;
-        if (pResults->lpszServiceInstanceName[0] == 0 && tryempty)
-        {  // empty name : may happen on the first inquiry after the device was connected
-           tryempty = false;   // redo the inquiry a second time only (there may be a device with a real empty name)
-           again = true;
-			  break;
-        }
-
-        DWORD strSiz = sizeof addrStr;
-        if (WSAAddressToStringA(pResults->lpcsaBuffer->RemoteAddr.lpSockaddr, pResults->lpcsaBuffer->RemoteAddr.iSockaddrLength,
-                                NULL, addrStr, &strSiz) == 0)
-        {
-           addrStr[strlen(addrStr)-1] = 0;   // remove trailing ')'
-           devInfo.macAddr = addrStr+1;   // remove leading '('
-           devInfo.name = pResults->lpszServiceInstanceName;
-           devs.push_back(devInfo);
-	     }
-	  }
-
-	  WSALookupServiceEnd(hLookup);
-  } while (again);
-
-  WSACleanup();
-
-#else // Linux or Mac OS
-
 #ifdef HASBLUETOOTH
     
     #define MAX_DEVS 255
@@ -176,8 +119,6 @@ BITalino::VDevInfo BITalino::find(void)
    
 #endif // HASBLUETOOTH
    
-#endif // Linux or Mac OS
-
     return devs;
 }
 
@@ -185,116 +126,6 @@ BITalino::VDevInfo BITalino::find(void)
 
 BITalino::BITalino(const char *address) : nChannels(0), isBitalino2(false)
 {
-#ifdef _WIN32
-   if (_memicmp(address, "COM", 3) == 0)
-   {
-      fd = INVALID_SOCKET;
-
-	   char xport[40] = "\\\\.\\";   // preppend "\\.\"
-
-	   strcat_s(xport, 40, address);
-
-	   hCom = CreateFileA(xport,  // comm port name
-					   GENERIC_READ | GENERIC_WRITE,
-					   0,      // comm devices must be opened w/exclusive-access 
-					   NULL,   // no security attributes 
-					   OPEN_EXISTING, // comm devices must use OPEN_EXISTING 
-					   0,      // not overlapped I/O 
-					   NULL);  // hTemplate must be NULL for comm devices 
-
-      if (hCom == INVALID_HANDLE_VALUE)
-         throw Exception(Exception::PORT_COULD_NOT_BE_OPENED);
-
-      DCB dcb;
-      if (!GetCommState(hCom, &dcb))
-	   {
-		   close();
-		   throw Exception(Exception::PORT_INITIALIZATION);
-	   }
-      dcb.BaudRate = CBR_115200;
-      dcb.fBinary = TRUE;
-      dcb.fParity = FALSE;
-      dcb.fOutxCtsFlow = FALSE;
-      dcb.fOutxDsrFlow = FALSE;
-      dcb.fDtrControl = DTR_CONTROL_DISABLE;
-      dcb.fDsrSensitivity = FALSE;
-      dcb.fOutX = FALSE;
-      dcb.fInX = FALSE;
-      dcb.fNull = FALSE;
-      dcb.fRtsControl = RTS_CONTROL_DISABLE;
-      dcb.ByteSize = 8;
-      dcb.Parity = NOPARITY;
-      dcb.StopBits = ONESTOPBIT;
-      if (!SetCommState(hCom, &dcb))
-	   {
-		   close();
-		   throw Exception(Exception::PORT_INITIALIZATION);
-	   }
-
-	   COMMTIMEOUTS ct;
-	   ct.ReadIntervalTimeout         = 0;
-	   ct.ReadTotalTimeoutConstant    = 5000; // 5 s
-	   ct.ReadTotalTimeoutMultiplier  = 0;
-	   ct.WriteTotalTimeoutConstant   = 5000; // 5 s
-	   ct.WriteTotalTimeoutMultiplier = 0;
-
-	   if (!SetCommTimeouts(hCom, &ct)) 
-	   {
-		   close();
-		   throw Exception(Exception::PORT_INITIALIZATION);
-	   }
-   }
-   else // address is a Bluetooth MAC address
-   {
-      hCom = INVALID_HANDLE_VALUE;
-
-      WSADATA m_data;
-      if (WSAStartup(0x202, &m_data) != 0)
-         throw Exception(Exception::PORT_INITIALIZATION);
-
-      SOCKADDR_BTH so_bt;
-      int siz = sizeof so_bt;
-      if (WSAStringToAddressA((LPSTR)address, AF_BTH, NULL, (sockaddr*)&so_bt, &siz) != 0)
-      {
-         WSACleanup();
-         throw Exception(Exception::INVALID_ADDRESS);
-      }
-      so_bt.port = 1;
-
-      fd = socket(AF_BTH, SOCK_STREAM, BTHPROTO_RFCOMM);
-      if (fd == INVALID_SOCKET)
-      {
-         WSACleanup();
-         throw Exception(Exception::PORT_INITIALIZATION);
-      }
-
-      DWORD rcvbufsiz = 128*1024; // 128k
-      setsockopt(fd, SOL_SOCKET, SO_RCVBUF, (char*) &rcvbufsiz, sizeof rcvbufsiz);
-
-      if (connect(fd, (const sockaddr*)&so_bt, sizeof so_bt) != 0)
-      {
-         int err = WSAGetLastError();
-         close();
-
-         switch(err)
-         {
-         case WSAENETDOWN:
-            throw Exception(Exception::BT_ADAPTER_NOT_FOUND);
-
-         case WSAETIMEDOUT:
-            throw Exception(Exception::DEVICE_NOT_FOUND);
-
-         default:
-            throw Exception(Exception::PORT_COULD_NOT_BE_OPENED);
-         }
-      }
-
-      readtimeout.tv_sec = 5;
-      readtimeout.tv_usec = 0;
-   }
-
-#else // Linux or Mac OS
-
    if (memcmp(address, "/dev/", 5) == 0)
    {   
       fd = open(address, O_RDWR | O_NOCTTY | O_NDELAY);
@@ -343,6 +174,7 @@ BITalino::BITalino(const char *address) : nChannels(0), isBitalino2(false)
       isTTY = true;
    }
    else // address is a Bluetooth MAC address
+
 #ifdef HASBLUETOOTH
    {
       sockaddr_rc so_bt;
@@ -369,7 +201,6 @@ BITalino::BITalino(const char *address) : nChannels(0), isBitalino2(false)
       throw Exception(Exception::PORT_COULD_NOT_BE_OPENED);
 #endif // HASBLUETOOTH
 
-#endif // Linux or Mac OS
 
    // check if device is BITalino2
    const std::string ver = version();
@@ -683,79 +514,30 @@ void BITalino::send(char cmd)
 {
    Sleep(150);
 
-#ifdef _WIN32
-   if (fd == INVALID_SOCKET)
-   {
-      DWORD nbytwritten = 0;
-	   if (!WriteFile(hCom, &cmd, sizeof cmd, &nbytwritten, NULL))
- 		   throw Exception(Exception::CONTACTING_DEVICE);
-
-      if (nbytwritten != sizeof cmd)
- 		   throw Exception(Exception::CONTACTING_DEVICE);
-   }
-   else
-      if (::send(fd, &cmd, sizeof cmd, 0) != sizeof cmd)
-         throw Exception(Exception::CONTACTING_DEVICE);
-   
-#else // Linux or Mac OS
-
-   if (write(fd, &cmd, sizeof cmd) != sizeof cmd)
+   if (write(fd, &cmd, sizeof cmd) != sizeof cmd) {
       throw Exception(Exception::CONTACTING_DEVICE);
-#endif
+   }
 }
 
 /*****************************************************************************/
 
 int BITalino::recv(void *data, int nbyttoread)
 {
-#ifdef _WIN32
-   if (fd == INVALID_SOCKET)
-   {
-      for(int n = 0; n < nbyttoread;)
-      {
-         DWORD nbytread = 0;
-	      if (!ReadFile(hCom, (char *) data+n, nbyttoread-n, &nbytread, NULL))
- 		      throw Exception(Exception::CONTACTING_DEVICE);
 
-         if (nbytread == 0)
-         {
-            DWORD stat;
-            if (!GetCommModemStatus(hCom, &stat) || !(stat & MS_DSR_ON))
-               throw Exception(Exception::CONTACTING_DEVICE);  // connection is lost
-
-            return n;   // a timeout occurred
-         }
-
-         n += nbytread;
-      }
-
-	   return nbyttoread;
-   }
-#endif
-
-#ifndef _WIN32 // Linux or Mac OS
    timeval  readtimeout;
    readtimeout.tv_sec = 5;
    readtimeout.tv_usec = 0;
-#endif
 
    fd_set   readfds;
    FD_ZERO(&readfds);
    FD_SET(fd, &readfds);
 
-   for(int n = 0; n < nbyttoread;)
-   {
+   for(int n = 0; n < nbyttoread;) {
       int state = select(FD_SETSIZE, &readfds, NULL, NULL, &readtimeout);
       if(state < 0)	 throw Exception(Exception::CONTACTING_DEVICE);
 
       if (state == 0)   return n;   // a timeout occurred
-
-#ifdef _WIN32
-      int ret = ::recv(fd, (char *) data+n, nbyttoread-n, 0);
-#else // Linux or Mac OS
       ssize_t ret = ::read(fd, (char *) data+n, nbyttoread-n);
-#endif
-
       if(ret <= 0)   throw Exception(Exception::CONTACTING_DEVICE);
       n += ret;
    }
@@ -767,20 +549,8 @@ int BITalino::recv(void *data, int nbyttoread)
 
 void BITalino::close(void)
 {
-#ifdef _WIN32
-   if (fd == INVALID_SOCKET)
-      CloseHandle(hCom);
-   else
-   {
-      closesocket(fd);
-      WSACleanup();
-   }
-   
-#else // Linux or Mac OS
-
    ::close(fd);
 
-#endif
 }
 
 /*****************************************************************************/

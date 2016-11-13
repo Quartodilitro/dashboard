@@ -27,7 +27,7 @@
 #include <stdio.h>
 #include <QMessageBox>
 #include <QString>
-#include <QDebug>  // !!! TESTING PURPOSE ONLY
+#include <QDebug>  // DEBUG ONLY
 #include <stdio.h>  // splash screen
 #include <stdlib.h>
 #include <unistd.h>
@@ -48,8 +48,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 MainWindow::~MainWindow() {
-    m_workerThread->shutDown();  // Tell worker thread to shut down
-    can->Close();  // Close can connection
+    m_workerThread->shutDown();  // tell worker thread to shut down
+    can->Close();  // close can connection
     if(!m_workerThread->wait(3000)) {  // wait for worker thread to shut down, force if problem
         m_workerThread->terminate();
     }
@@ -120,7 +120,7 @@ void MainWindow::setupCan() {
         m_workerThread->terminate();
     }
 
-    // init new connection  // !!! TESTING PURPOSE ONLY
+    // init new connection  // DEBUG ONLY
     ret = can->Init("vcan0", errorCode);
     if(!ret) {
         QMessageBox msgBox;
@@ -136,5 +136,6 @@ void MainWindow::setupCan() {
 }
 
 void MainWindow::msgReceived(int id, int data) {
+    qDebug() << "New message: [" << id << "] says <" << data << ">\r";
     dashtab->setValue(id, data);
 }

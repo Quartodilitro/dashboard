@@ -20,7 +20,6 @@
 Gpstab::Gpstab(QWidget *parent) : QMainWindow(parent) {
     central = new QWidget(this);
     central->setGeometry(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-
     setupUI();
     setupTabChange();
 }
@@ -40,6 +39,14 @@ void Gpstab::setupUI() {
     gpsboard = new Gpsboard(gpsboard_widget);
 }
 
+void Gpstab::setValue(int id, int data) {
+    qDebug() << "GPS: set value\n";
+}
+
+void Gpstab::setValueMap(int sect, int coordx, int coordy) {
+    repaint();
+}
+
 void Gpstab::setupTabChange() {
     QObject::connect(gpsboard, SIGNAL(changeTabParent(int)), this, SLOT(changeTabChild(int)));
 }
@@ -49,25 +56,16 @@ void Gpstab::changeTabChild(int direction) {
 }
 
 void Gpstab::paintEvent(QPaintEvent *) {
-    QPainter painter(this);
-    painter.setPen(QPen(QBrush(Qt::white), 10, Qt::SolidLine, Qt::SquareCap));
-    font.setPointSize(28);
-    painter.setFont(font);
+    int second = QTime::currentTime().second() % 30;
 
-    // ooops
-    painter.drawText(120, 200, QString::fromUtf8("Ooops! - again - "));
+    int coordx = 0;  // this->gps_coord[second * 2];
+    int coordy = 0;  // this->gps_coord[second * 2 + 1];
+    int sector = 0;  // get sector
 
-    font.setPointSize(12);
-    painter.setFont(font);
-
-    // additional details
-    painter.drawText(120, 220, QString::fromUtf8("It seems this tab is still under development ..."));
-    painter.drawText(120, 235, QString::fromUtf8("Don't worry, Quartodilitro (C) developers are rushing to fix it!"));
-    painter.drawText(120, 280, QString::fromUtf8("Well, at least you can take look at the values in the dashboard!"));
-
-
-    // rectangle
-    QRectF rectangle(100, 160, 600, 140);
-    painter.setPen(QPen(QBrush(Qt::white), 10, Qt::SolidLine, Qt::SquareCap));
-    painter.drawRoundedRect(rectangle, 20.0, 15.0);
+    /* this->map = new QPixmap("../res/circuit/circuit_" + QString::number(sector) + QString::fromUtf8(".png"));
+    this->map->scaled(QSize(156, 165), Qt::KeepAspectRatio);*/
+    /*QPainter painter(this->map);
+    painter.setPen(QPen(QBrush(QColor(255, 255, 255)), 10, Qt::SolidLine, Qt::RoundCap));
+    painter.drawPoint(coordx, coordy);
+    this->gpsboard->map_label->setPixmap(*map);*/
 }

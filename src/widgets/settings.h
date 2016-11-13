@@ -26,7 +26,7 @@
 #include <QMessageBox>
 #include <QFontDatabase>
 
-// !!! TESTING PURPOSE ONLY
+// DEBUG ONLY
 #include <QDebug>
 
 
@@ -38,7 +38,6 @@ class Settingsboard : public QWidget
 public:
     // layout
     QWidget *central;
-    QPushButton *helpButton;
     QPushButton *aboutButton;
     QFont font;
 
@@ -54,14 +53,14 @@ public:
 
     void setupUI() {
         // qdl logo
-        QPixmap background_logo("../src/res/settingstab/logo.png");
+        QPixmap background_logo("../res/logobw.png");
         background_logo = background_logo.scaled(QSize(380, 60), Qt::KeepAspectRatio);
         QLabel *background_label = new QLabel(central);
         background_label->setGeometry(410, 70, 380, 60);
         background_label->setPixmap(background_logo);
 
-        // setup font
         font = QFont("Arial", 8, QFont::Normal, false);
+        font.setPointSize(12);
         this->setFont(font);
 
         setupHint();
@@ -69,26 +68,17 @@ public:
     }
 
     void setupHint() {
-            // font
-            font.setPointSize(12);
-
             aboutButton = new QPushButton("About", central);
             aboutButton->setStyleSheet("background-color: black; color: white");
             aboutButton->setFont(font);
-            aboutButton->setGeometry(620, 10, 80, 30);
+            aboutButton->setGeometry(710, 10, 80, 30);
             QObject::connect(aboutButton, SIGNAL(clicked()), this, SLOT(aboutDialog()));
-
-            helpButton = new QPushButton("Help", central);
-            helpButton->setStyleSheet("background-color: black; color: white");
-            helpButton->setFont(font);
-            helpButton->setGeometry(710, 10, 80, 30);
-            QObject::connect(helpButton, SIGNAL(clicked()), this, SLOT(helpDialog()));
     }
 
     void setupChangeTab() {
         // left button
         // pixmap to show in button
-        QPixmap left("../src/res/share/left.png");
+        QPixmap left("../res/left.png");
         left = left.scaled(QSize(40, 40), Qt::IgnoreAspectRatio);
 
         changeTabButtonLeft = new QPushButton(central);
@@ -103,15 +93,6 @@ signals:
     void changeTabParent(int direction);
 
 protected slots:
-    void helpDialog() {
-            QString helpText = "All you need is love";
-            QMessageBox msg(this);
-            msg.setWindowTitle("Is something wrong?");
-            msg.setText(helpText);
-            msg.setFont(font);
-            msg.exec();
-     }
-
     void aboutDialog() {
         QString aboutText = "This software is a sample telemetry software developed for Quartodilitro (C).\n"
                             "Copyright (C) 2016. Created by the developers of Quartodilitro (C). All right Reserved.\n"

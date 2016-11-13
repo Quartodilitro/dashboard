@@ -106,7 +106,7 @@ void CanWrapper::Close() {
 //#define EAGAIN          11      /* Try again - no data available*/
 //#define EBADF            9      /* Bad file number - can net not opened */
 // timeout - GetMsg will return false after timeout period
-bool CanWrapper::GetMsg(struct can_frame &frame, bool &extended, bool &rtr, bool &error, int &errorCode, struct timeval timeout) {
+bool CanWrapper::GetMsg(struct can_frame &frame, bool &extended, bool &rtr, bool &error, int &errorCode) {
     int bytesRead;
     int ret;
     fd_set rfds;
@@ -168,7 +168,6 @@ bool CanWrapper::GetMsg(struct can_frame &frame, bool &extended, bool &rtr, bool
 // Parameters:
 // size - the requested size of the receive buffer
 bool CanWrapper::SetRecvBufferSize(int size) {
-    int ret;
     int rcvbuf_size = size;
 
 //    int rbuf;
@@ -178,7 +177,7 @@ bool CanWrapper::SetRecvBufferSize(int size) {
 //    ret = getsockopt(m_socket,SOL_SOCKET,SO_RCVBUF,&rbuf,(socklen_t*)&len);
 //    printf("receive buf size is before change: %d\r\n", rbuf);
 
-    ret = setsockopt(m_socket, SOL_SOCKET, SO_RCVBUF, &rcvbuf_size, sizeof(rcvbuf_size));
+    int ret = setsockopt(m_socket, SOL_SOCKET, SO_RCVBUF, &rcvbuf_size, sizeof(rcvbuf_size));
     if(ret < 0) {
   //      perror("set recv buffer size");
   //      printf("errno is %d\r\n", errno);

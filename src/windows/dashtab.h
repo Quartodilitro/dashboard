@@ -36,12 +36,9 @@ class Dashtab : public QMainWindow
 public:
     Dashtab(QWidget *parent=0);
 
-    //layout
     QWidget *central;
     QWidget *dashboard_widget;
-
-    //widgets
-    Dashboard *dashboard;
+    Dashboard *dashboard;  // widget
 
     void setupUI();
     void setupTabChange();

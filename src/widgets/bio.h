@@ -23,7 +23,7 @@
 #include <QPushButton>
 #include <QLabel>
 
-// !!! TESTING PURPOSE ONLY
+// DEBUG ONLY
 #include <QDebug>
 
 
@@ -54,7 +54,7 @@ public:
     void setupChangeTab() {
         // left button
         // pixmap to show in button
-        QPixmap left("../src/res/share/left.png");
+        QPixmap left("../res/left.png");
         left = left.scaled(QSize(40, 40), Qt::KeepAspectRatio);
 
         changeTabButtonLeft = new QPushButton(central);
@@ -64,7 +64,7 @@ public:
 
         // right button
         // pixmap to show in button
-        QPixmap right("../src/res/share/right.png");
+        QPixmap right("../res/right.png");
         right = right.scaled(QSize(40, 40), Qt::KeepAspectRatio);
 
         changeTabButtonRight = new QPushButton(central);

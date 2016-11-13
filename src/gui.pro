@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-QT       += core gui
+QT        += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,7 +21,7 @@ TARGET = gui
 TEMPLATE = app
 
 
-SOURCES += main.cpp \
+SOURCES   += main.cpp \
     utils/canworkerthread.cpp \
     utils/canwrapper.cpp \
     widgets/qroundprogressbar.cpp \
@@ -32,7 +32,7 @@ SOURCES += main.cpp \
     windows/settingstab.cpp \
     bitalino/bitalino.cpp
 
-HEADERS  += utils/canworkerthread.h \
+HEADERS   += utils/canworkerthread.h \
     utils/canwrapper.h \
     utils/qtUtils.h \
     utils/stdUtils.h \   

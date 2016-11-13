@@ -25,11 +25,10 @@
 #include <QFontDatabase>
 #include <QTime>
 #include <QPainter>
-
-// !!! TESTING PURPOSE ONLY
-#include <QDebug>
+#include <QDebug>  // DEBUG ONLY
 
 #include "qroundprogressbar.h"
+#include "../utils/qtUtils.h"
 
 
 class Timing : public QWidget
@@ -84,7 +83,6 @@ public:
         best_2 = new QLabel("45\"961", central);
         best_3 = new QLabel("18\"789", central);
         best_tot = new QLabel("1\'43\"994", central);
-
 
         setupTitle(title_1);
         setupTitle(title_2);
@@ -169,12 +167,6 @@ public:
     QPixmap logo;
     QLabel *logo_label;
 
-    // circuit map
-    QPixmap map;
-    QLabel *map_label;
-    QLabel *lap;
-    QWidget *map_widget;
-
     // widgets
     QLabel *rpm;
     QLabel *speed;
@@ -213,13 +205,12 @@ public:
         setupLabels();
         setupChangeTab();
         setupLogo();
-        setupMap();
         setupTiming();
     }
 
     void setupChangeTab() {
         // pixmap to show in button
-        QPixmap right("../src/res/share/right.png");
+        QPixmap right("../res/right.png");
         right = right.scaled(QSize(40, 40), Qt::KeepAspectRatio);
 
         changeTabButtonRight = new QPushButton(central);
@@ -286,34 +277,11 @@ public:
         bpm_title->setGeometry(692, 420, 80, 36);
     }
 
-    void setupLabel(QLabel *label, int pointSize) {
-        // QFont font;
-        font.setPointSize(pointSize);
-        label->setFont(font);
-        label->setAlignment(Qt::AlignCenter);
-        label->setStyleSheet("QLabel {color : white; }");
-    }
-
     void setupLogo() {
-        logo = QPixmap("../src/res/dashtab/logo.png").scaled(QSize(288, 52), Qt::KeepAspectRatio);
+        logo = QPixmap("../res/logobw.png").scaled(QSize(288, 52), Qt::KeepAspectRatio);
         logo_label = new QLabel(central);
         logo_label->setGeometry(116, 376, logo.width(), logo.height());
         logo_label->setPixmap(logo);
-    }
-
-    void setupMap() {
-        // map
-        map = QPixmap("../src/res/dashtab/aragon.png").scaled(QSize(156, 165), Qt::KeepAspectRatio);
-        map_label = new QLabel(central);
-        map_label->setGeometry(594, 32, map.width(), map.height());
-        map_label->setPixmap(map);
-
-        // lap
-        lap = new QLabel("3", central);
-        setupLabel(lap, 24);
-        lap->setStyleSheet("QLabel {color : rgb(182,180,182); }");
-        lap->setGeometry(720, 32, 30, 40);
-        lap->raise();
     }
 
     void setupTiming() {

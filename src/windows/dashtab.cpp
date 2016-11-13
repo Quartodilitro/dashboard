@@ -18,7 +18,7 @@
 #include <QTime>
 
 #include "dashtab.h"
-
+#include <QFileInfo>
 
 Dashtab::Dashtab(QWidget *parent) : QMainWindow(parent){
     central = new QWidget(this);
@@ -31,32 +31,14 @@ Dashtab::Dashtab(QWidget *parent) : QMainWindow(parent){
 void Dashtab::setupUI() {
     this->setStyleSheet("QMainWindow {background-color: 'black';}");
 
-    // background widgets
     dashboard_widget = new QWidget(central);
     dashboard_widget->setGeometry(0, 0, central->width(), central->height());
-
-    // widgets
     dashboard = new Dashboard(dashboard_widget);
 }
 
 void Dashtab::setValue(int id, int data) {
     dashboard->setValue(id, data);
-
-    int second = QTime::currentTime().second() % 30;
-
-    // get gps coordinates
-    int gps_coord[60] = {134, 118, 131, 114, 130, 111, 127, 108, 125, 106, 122
-                        , 101, 120, 98, 117, 95, 115, 92, 113, 89, 111, 86
-                        , 108, 85, 104, 87, 101, 90, 98, 92, 94, 94, 91, 94
-                        , 88, 94, 83, 93, 81, 91, 78, 88, 74, 86, 72, 84, 69
-                        , 82, 67, 80, 66, 77, 65, 73, 66, 68, 66, 66, 65, 62};
-
-    int coordx = gps_coord[second * 2];
-    int coordy = gps_coord[second * 2 + 1];
-
-    // get sector
-    int sector = 0;
-    setValueMap(sector, coordx, coordy);
+    repaint();
 }
 
 void Dashtab::setValueMap(int sect, int coordx, int coordy) {
@@ -72,31 +54,19 @@ void Dashtab::changeTabChild(int direction) {
 }
 
 void Dashtab::paintEvent(QPaintEvent *event) {
-    int second = QTime::currentTime().second() % 30;
-
-    // get gps coordinates
+    /*int second = QTime::currentTime().second() % 30;
     int gps_coord[60] = {134, 118, 131, 114, 130, 111, 127, 108, 125, 106, 122
                         , 101, 120, 98, 117, 95, 115, 92, 113, 89, 111, 86
                         , 108, 85, 104, 87, 101, 90, 98, 92, 94, 94, 91, 94
                         , 88, 94, 83, 93, 81, 91, 78, 88, 74, 86, 72, 84, 69
                         , 82, 67, 80, 66, 77, 65, 73, 66, 68, 66, 66, 65, 62};
-
     int coordx = gps_coord[second * 2];
     int coordy = gps_coord[second * 2 + 1];
+    int sector = 0;  // get sector
 
-    // get sector
-    int sector = 0;
-
-    // get image to edit
-    QPixmap map(QString::fromUtf8("../src/res/dashtab/aragon_") + QString::number(sector) + QString::fromUtf8(".png"));
-    map = map.scaled(QSize(156, 165), Qt::KeepAspectRatio);
-    QImage map_tmp = map.toImage();
-
-    // start paint
-    QPainter painter(&map_tmp);
+    QPixmap *map = new QPixmap("../res/circuit/circuit_" + QString::number(sector) + QString::fromUtf8(".png"));    *map = map->scaled(QSize(156, 165), Qt::KeepAspectRatio);
+    QPainter painter(map);
     painter.setPen(QPen(QBrush(QColor(255, 255, 255)), 10, Qt::SolidLine, Qt::RoundCap));
-
-    // draw coordinate and update
     painter.drawPoint(coordx, coordy);
-    this->dashboard->map_label->setPixmap(QPixmap::fromImage(map_tmp));
+    this->dashboard->map_label->setPixmap(*map);*/
 }

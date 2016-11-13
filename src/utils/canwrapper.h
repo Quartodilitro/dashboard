@@ -27,7 +27,7 @@ public:
 
     bool Init(const char *interfaceName, int &errorCode);
     void Close();
-    bool GetMsg(struct can_frame &frame, bool &extended, bool &rtr, bool &error, int &errorCode, struct timeval timeout);
+    bool GetMsg(struct can_frame &frame, bool &extended, bool &rtr, bool &error, int &errorCode);
     bool SetRecvBufferSize(int size);
     void EnableErrorMessages();
 

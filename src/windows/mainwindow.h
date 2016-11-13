@@ -49,8 +49,8 @@ public:
 
 private:
     CanWrapper *can;  // canbus
-    int m_receivedMessages;  // Number of received messages
-    CanWorkerThread *m_workerThread;  // Thread that listens for CAN messages
+    int m_receivedMessages;  // number of received messages
+    CanWorkerThread *m_workerThread;  // thread that listens for CAN messages
 
 protected slots:
     void changeTab(int direction);

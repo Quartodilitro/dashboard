@@ -19,25 +19,36 @@
 #define QT_UTILS
 
 
+#include <QDesktopWidget>
 #include <QtGui>
+#include <QLabel>
 
-int getScreenWidth(){
+inline int getScreenWidth(){
     QDesktopWidget widget;
     QRect mainScreenSize = widget.availableGeometry(widget.primaryScreen());
     return mainScreenSize.width();
 }
 
-int getScreenHeight(){
+inline int getScreenHeight(){
     QDesktopWidget widget;
     QRect mainScreenSize = widget.availableGeometry(widget.primaryScreen());
     return mainScreenSize.height();
 }
 
-void setSize(QWidget *widget, int height, int width){
+inline void setSize(QWidget *widget, int height, int width){
     widget->setMinimumWidth(width);  // min width = max width
     widget->setMaximumWidth(width);
     widget->setMinimumHeight(height);  // min height = max height
     widget->setMaximumHeight(height);
 }
+
+inline void setupLabel(QLabel *label, int pointSize) {
+    QFont font;
+    font.setPointSize(pointSize);
+    label->setFont(font);
+    label->setAlignment(Qt::AlignCenter);
+    label->setStyleSheet("QLabel {color : white; }");
+}
+
 
 #endif // QT_UTILS

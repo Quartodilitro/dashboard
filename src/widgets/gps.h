@@ -22,10 +22,9 @@
 #include <QApplication>
 #include <QPushButton>
 #include <QLabel>
+#include <QDebug>  // DEBUG ONLY
 
-// !!! TESTING PURPOSE ONLY
-#include <QDebug>
-
+#include "../utils/qtUtils.h"
 
 class Gpsboard : public QWidget
 {
@@ -35,6 +34,12 @@ class Gpsboard : public QWidget
 public:
     // layout
     QWidget *central;
+
+    // circuit map
+    QPixmap map;
+    QLabel *map_label;
+    QLabel *lap;
+    QWidget *map_widget;
 
     // button to change tab
     QPushButton *changeTabButtonLeft;
@@ -49,12 +54,13 @@ public:
 
     void setupUI() {
         setupChangeTab();
+        setupMap();
     }
 
     void setupChangeTab() {
         // left button
         // pixmap to show in button
-        QPixmap left("../src/res/share/left.png");
+        QPixmap left("../res/left.png");
         left = left.scaled(QSize(40, 40), Qt::IgnoreAspectRatio);
 
         changeTabButtonLeft = new QPushButton(central);
@@ -64,7 +70,7 @@ public:
 
         // right button
         // pixmap to show in button
-        QPixmap right("../src/res/share/right.png");
+        QPixmap right("../res/right.png");
         right = right.scaled(QSize(40, 40), Qt::IgnoreAspectRatio);
 
         changeTabButtonRight = new QPushButton(central);
@@ -75,6 +81,22 @@ public:
         QObject::connect(changeTabButtonLeft, SIGNAL(clicked()), this, SLOT(changeTabChildLeft()));
         QObject::connect(changeTabButtonRight, SIGNAL(clicked()), this, SLOT(changeTabChildRight()));
     }
+
+    void setupMap() {
+        // map
+        map = QPixmap("../res/circuit/circuit.png").scaled(QSize(156, 165), Qt::KeepAspectRatio);
+        map_label = new QLabel(central);
+        map_label->setGeometry(594, 32, map.width(), map.height());
+        map_label->setPixmap(map);
+
+        // lap
+        lap = new QLabel("LAP: 3", central);
+        setupLabel(lap, 18);
+        lap->setStyleSheet("QLabel {color : rgb(182,180,182); }");
+        lap->setGeometry(680, 32, 80, 40);
+        lap->raise();
+    }
+
 
 signals:
     void changeTabParent(int direction);

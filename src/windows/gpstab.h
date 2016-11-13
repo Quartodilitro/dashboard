@@ -36,16 +36,17 @@ class Gpstab : public QMainWindow
 public:
     Gpstab(QWidget *parent = 0);
 
-    //layout
     QWidget *central;
     QWidget *gpsboard_widget;
     QFont font;
-
-    //widgets
-    Gpsboard *gpsboard;
+    Gpsboard *gpsboard;  // widget
+    int gps_coord[60];
+    QPixmap* map;
 
     void setupUI();
     void setupTabChange();
+    void setValue(int id, int data);
+    void setValueMap(int sect, int coordx, int coordy);
 
 protected:
     void paintEvent(QPaintEvent *);
