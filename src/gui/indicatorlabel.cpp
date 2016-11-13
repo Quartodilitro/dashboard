@@ -9,7 +9,7 @@ IndicatorLabel::IndicatorLabel(QWidget *parent) :
     ui->setupUi(this);
 
     QFont font = QApplication::font();
-    font.setPointSize(12);
+    font.setPointSize(15);
     font.setBold(true);
     ui->value->setFont(font);
 }

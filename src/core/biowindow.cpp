@@ -10,7 +10,7 @@ BioWindow::BioWindow(QWidget *parent) :
 {
     ui->setupUi(this);  // setup and title
     QFont font = QApplication::font();
-    font.setPointSize(12);
+    font.setPointSize(15);
     font.setItalic(true);
     ui->title->setFont(font);
     ui->title->setAlignment(Qt::AlignCenter);

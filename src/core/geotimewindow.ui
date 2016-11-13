@@ -61,21 +61,15 @@
      <rect>
       <x>10</x>
       <y>40</y>
-      <width>521</width>
-      <height>171</height>
+      <width>510</width>
+      <height>260</height>
      </rect>
     </property>
     <property name="editTriggers">
      <set>QAbstractItemView::NoEditTriggers</set>
     </property>
-    <property name="showGrid">
-     <bool>true</bool>
-    </property>
-    <property name="gridStyle">
-     <enum>Qt::SolidLine</enum>
-    </property>
     <property name="rowCount">
-     <number>4</number>
+     <number>5</number>
     </property>
     <property name="columnCount">
      <number>2</number>
@@ -87,7 +81,7 @@
      <number>26</number>
     </attribute>
     <attribute name="verticalHeaderDefaultSectionSize">
-     <number>35</number>
+     <number>47</number>
     </attribute>
     <row>
      <property name="text">
@@ -149,6 +143,21 @@
       <set>AlignCenter</set>
      </property>
     </row>
+    <row>
+     <property name="text">
+      <string>Lap</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </row>
     <column>
      <property name="text">
       <string>Current</string>
@@ -181,7 +190,7 @@
     </column>
     <item row="0" column="0">
      <property name="text">
-      <string/>
+      <string>43&quot;456</string>
      </property>
      <property name="font">
       <font>
@@ -207,7 +216,7 @@
     </item>
     <item row="1" column="0">
      <property name="text">
-      <string/>
+      <string>57&quot;198</string>
      </property>
      <property name="font">
       <font>
@@ -233,7 +242,7 @@
     </item>
     <item row="2" column="0">
      <property name="text">
-      <string/>
+      <string>29&quot;560</string>
      </property>
      <property name="font">
       <font>
@@ -259,7 +268,7 @@
     </item>
     <item row="3" column="0">
      <property name="text">
-      <string/>
+      <string>34&quot;132</string>
      </property>
      <property name="font">
       <font>
@@ -277,6 +286,37 @@
      <property name="font">
       <font>
        <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="4" column="0">
+     <property name="text">
+      <string>2'44&quot;346</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="4" column="1">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+       <kerning>true</kerning>
       </font>
      </property>
      <property name="textAlignment">

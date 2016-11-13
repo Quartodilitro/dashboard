@@ -17,10 +17,10 @@ public:
     explicit Chart(QWidget *parent = 0);
     ~Chart();
 
-    int CHART_FIELDS_CODES_MIN = 0;
-    int CHART_FIELDS_CODES_AVG = 1;
-    int CHART_FIELDS_CODES_MAX = 2;
-    int CHART_FIELDS_CODES_NOW = 3;
+    int FIELDS_CODES_MIN = 0;  // possible values of set/get methods
+    int FIELDS_CODES_AVG = 1;
+    int FIELDS_CODES_MAX = 2;
+    int FIELDS_CODES_NOW = 3;
 
     void setTitle(QString title);
     void setPen(QPen pen);

@@ -1,4 +1,3 @@
-#include <QDebug>  // DEBUG
 #include <QLabel>
 #include <stdexcept>
 
@@ -20,9 +19,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connections = new ConnectionBridge();
     connect(connections->workerThread, SIGNAL(msgReceived(int, int)), this, SLOT(gotMessage(int,int)));
     connections->start();
-
-    VirtualCan *virtualCan = new VirtualCan("vcan0", 125);  // DEBUG
-    virtualCan->start();  // do 3 virtual laps of 168 seconds each // DEBUG
 }
 
 MainWindow::~MainWindow()
@@ -31,7 +27,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::gotMessage(int code, int data) {
-    // qDebug() << "New message: [" << code << "] says <" << data << ">\r";
     setValue(data, (int) code);
 }
 
@@ -60,7 +55,6 @@ void MainWindow::setupWindows() {
 void MainWindow::setValue(double value, int code) {
     dashWindow->setValue(value, code);
     bioWindow->setValue(value, code);
-    geoTimeWindow->setValue(value, code);
 }
 
 /**
@@ -89,8 +83,8 @@ void MainWindow::changeTabRight() {
  */
 void MainWindow::updateSettings() {
     bool isLightTheme = settings->hasLightTheme();  // retrieve theme preferences
-    // set light/dark theme
-    if (isLightTheme) {
+
+    if (isLightTheme) {  // set light/dark theme
         THEME_COLOR = Qt::white;
         FONT_COLOR = Qt::black;
     } else {

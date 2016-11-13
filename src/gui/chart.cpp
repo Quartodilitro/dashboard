@@ -7,7 +7,7 @@ Chart::Chart(QWidget *parent) : QWidget(parent), ui(new Ui::Chart)
 
     // labels
     QFont font = QApplication::font();
-    font.setPointSize(12);
+    font.setPointSize(15);
     font.setBold(true);
     ui->max_value->setFont(font);
     ui->avg_value->setFont(font);
@@ -71,11 +71,11 @@ void Chart::setValue(double value) {
  * @return value corresponding to given field
  */
 double Chart::getValue(int code) {
-    if (code == CHART_FIELDS_CODES_MIN) {
+    if (code == 0) {
         return minValue;
-    } else if (code == CHART_FIELDS_CODES_AVG) {
+    } else if (code == 1) {
         return avgValue;
-    }  else if (code == CHART_FIELDS_CODES_MAX) {
+    }  else if (code == 2) {
         return maxValue;
     } else {
         return  currentValue;

@@ -7,7 +7,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
 {
     ui->setupUi(this);  // setup  and title
     QFont font = QApplication::font();
-    font.setPointSize(12);
+    font.setPointSize(15);
     font.setItalic(true);
     ui->title->setFont(font);
     ui->title->setAlignment(Qt::AlignCenter);
@@ -17,13 +17,12 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
 
     settings = new Settings(QCoreApplication::organizationName(), QCoreApplication::applicationName());  // create settings manager
 
-    try {  // no settings set ever before
-        int l = settings->getDashboardConfiguration().size();
-    } catch (...) {
+    int l = settings->getDashboardConfiguration().count();
+    if (l < 1) {  // no settings set ever before
         emit updateUserPref();  // create new settings
     }
 
-    displayUserPref();
+        displayUserPref();
     QObject::connect(this->ui->updateSettingsButton, SIGNAL(clicked()), this, SLOT(updateUserPref()));  // connect update buttons to update functions
     QObject::connect(this, SIGNAL(updateSettings()), this->parent(), SLOT(updateSettings()));
 }

@@ -18,12 +18,6 @@ public:
     int DATA_CODE_TEMPERATURE_EXT = 0x05;
     int DATA_CODE_BPM = 0x06;
     int DATA_CODE_O2 = 0x07;
-    int DATA_CODE_GPS_X = 0x08;
-    int DATA_CODE_GPS_Y = 0x09;
-    int DATA_CODE_TIME_S_1S = 0x010;
-    int DATA_CODE_TIME_S_2S = 0x011;
-    int DATA_CODE_TIME_S_3S = 0x012;
-    int DATA_CODE_TIME_S_4S = 0x013;
 
     CanWrapper *can;
     CanWorkerThread *workerThread;  // thread that listens for CAN messages

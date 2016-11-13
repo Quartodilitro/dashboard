@@ -23,7 +23,6 @@ public:
     ~DashWindow();
 
     void setValue(double value, int code);
-    void updateGPSMap();
     double getValue(int code);
 
     void updateSettings();
@@ -34,12 +33,9 @@ private:
     ConnectionBridge *connectionBridge;
     Settings *settings;  // settings manager
 
-    QPixmap map;
     double speedValue;
     double rpmValue;
     double gearValue;
-    double gpsX;
-    double gpsY;
 };
 
 #endif // DASHWINDOW_H
