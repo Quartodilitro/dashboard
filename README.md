@@ -25,10 +25,7 @@ A whole bunch of input is to be handled, and this requires expert analysis but g
  - extra (data log import/export, customize layout, session data log/run log and graphs)
 
 ### Screenshots ###
-![Complete dashboard](/screenshot/0.png?raw=true)
-![Dark-theme in bio signals window](/screenshot/1.png?raw=true)
-![GPS and timing](/screenshot/2.png?raw=true)
-![User preferences](/screenshot/3.png?raw=true)
+Can be found in [this](screenshot/) folder.
 
 ### Who do I talk to? ###
 * contact us at [quartodilitro@gmail.com](mailto:quartodilitro@gmail.com)
