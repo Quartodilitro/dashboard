@@ -22,19 +22,32 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    layout/mainwindow.cpp \
-    layout/qroundprogressbar.cpp \
-    layout/dash.cpp
+    utils/canworkerthread.cpp \
+    utils/canwrapper.cpp \
+    widgets/qroundprogressbar.cpp \
+    windows/mainwindow.cpp \
+    windows/biotab.cpp \
+    windows/gpstab.cpp \
+    windows/dashtab.cpp \
+    windows/settingstab.cpp \
+    bitalino/bitalino.cpp
 
-HEADERS  += mainwindow.h \
-    layout/mainwindow.h \
-    utils/qt_utils.h \
-    utils/std_utils.h \
-    layout/dashboard.h \
-    layout/qroundprogressbar.h \
-    layout/rpm.h \
-    layout/speed.h \
-    layout/gear.h \
-    layout/timing.h \
-    layout/status.h \
-    layout/dash.h
+HEADERS  += utils/canworkerthread.h \
+    utils/canwrapper.h \
+    utils/qtUtils.h \
+    utils/stdUtils.h \   
+    virtualcan/canbus.h \
+    widgets/bio.h \
+    widgets/dash.h \
+    widgets/gps.h \
+    widgets/qroundprogressbar.h \
+    widgets/settings.h \
+    windows/mainwindow.h \
+    windows/biotab.h \
+    windows/gpstab.h \
+    windows/dashtab.h \
+    windows/settingstab.h \
+    bitalino/bitalino.h
+
+DISTFILES += \
+    virtualcan/startCan.sh
