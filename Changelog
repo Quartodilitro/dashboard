@@ -1,0 +1,41 @@
+v0.6
+  Version 0.6
+
+  qt form .ui implemented
+  geo-time windows created definitely
+  added resources file
+  user preferences settings
+  dark theme
+
+v0.5
+  Version 0.5
+
+  reformat code style
+  added bitalino module
+  
+v0.4
+  Version 0.4
+
+  best UI ever thanks to qdl designers
+  added splashscreen
+  removed tab -> added button
+
+v0.3
+  Version 0.3
+
+  better ui
+  virtual can module
+  can module
+  
+v0.2
+  Version 0.2
+
+  multi-tab version
+  support for Qt 4.8.6
+  better-looking widgets
+
+v0.1
+  Version 0.1
+
+  dashboard with basic RPM, speed icons
+  language: c++ (Qt libraries)
