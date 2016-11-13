@@ -15,39 +15,47 @@
  */
 
 
-#ifndef GEAR
-#define GEAR
+#ifndef DASH_H
+#define DASH_H
 
 
-#include <QtWidgets>
+#include <QMainWindow>
+#include "timing.h"
+#include "dashboard.h"
+#include "status.h"
 
-
-class Gear : public QWidget{
+class Dash : public QMainWindow
+{
     Q_OBJECT
 
 public:
+    explicit Dash(QWidget *parent = 0);
+
+    //layout
     QWidget *central;
-    QLCDNumber *gear;
+    QWidget *timing_widget;
+    QWidget *dashboard_widget;
+    QWidget *status_widget;
 
-    Gear(QWidget *parent){
-        central = new QWidget(parent);
-        central->setFixedSize(parent->size());
-        gear = new QLCDNumber(central);
+    //widgets
+    Timing *timing;
+    Dashboard *dashboard;
+    Status *status;
 
-        setupUI();
-    }
+    //layoutsetup
+    void setupWidgets();
+    void setupUI();
 
-    void setupUI(){
-        gear->setDigitCount(1);
-        gear->display(0);
+    //realtime data
+    int timeInterval;
 
-        //gear->setFixedSize(this->size());
-        gear->setGeometry(125, 100, 150, 150);
-    }
+private: //realtime data
+    QTimer dataTimer;
 
-    void setValue(int value){
-        gear->display(value);
-    }
+private slots:
+    //sample rate
+    void updateDataSlot();
+    void setRefreshRate(int ms);
 };
 
-#endif // GEAR
+#endif // DASH_H

@@ -20,6 +20,7 @@
 
 
 #include <QtWidgets>
+#include "qroundprogressbar.h"
 
 
 class Status : public QWidget{
@@ -28,43 +29,92 @@ class Status : public QWidget{
 public:
     QWidget *central;
 
-    QLabel *fuel_label;
-    QLabel *temp_label;
+    QLabel *oil_temperature_title;
+    QLabel *engine_temp_title;
+    QLabel *water_temp_title;
+
+    QRoundProgressBar *oil_temperature_bar;
+    QLCDNumber *oil_temperature_lcd;
+    QLabel *engine_temp_label;
+    QLabel *water_temp_label;
 
 
     Status(QWidget *parent){
-        //layout
+        // layout
         central = new QWidget(parent);
-        central->setFixedSize(200, 480);
+        central->setFixedSize(190, 400);
 
-        fuel_label = new QLabel(central);
-        temp_label = new QLabel(central);
+        oil_temperature_title = new QLabel("", central);
+        engine_temp_title = new QLabel("", central);
+        water_temp_title = new QLabel("", central);
+
+        oil_temperature_bar = new QRoundProgressBar(central);
+        oil_temperature_lcd = new QLCDNumber(central);
+        engine_temp_label = new QLabel(central);
+        water_temp_label = new QLabel(central);
 
         setupUI();
     }
 
     void setupUI(){
-        fuel_label->setAlignment(Qt::AlignCenter);
-        fuel_label->setFixedSize(central->width(), central->height()/4);
-        fuel_label->setGeometry(0, central->height()/2, fuel_label->width(), fuel_label->height());
+        // titles
+        QFont font;
+        font.setItalic(true);
+        font.setPointSize(12);
 
-        temp_label->setAlignment(Qt::AlignCenter);
-        temp_label->setFixedSize(central->width(), central->height()/4);
-        temp_label->setGeometry(0, double(0.75) * central->height(), temp_label->width(), temp_label->height());
+        oil_temperature_title->setAlignment(Qt::AlignCenter);
+        oil_temperature_title->setFont(font);
+        oil_temperature_title->setGeometry(0, 175, central->width(), 100);
 
-        //images
-        QPixmap fuel_image("../res/fuel.png");
-        QPixmap temp_image("../res/temp.png");
+        oil_temperature_lcd->setDigitCount(2);
+        oil_temperature_lcd->setGeometry(50, 50, 75, 75);
 
-        fuel_image = fuel_image.scaled(fuel_label->size(), Qt::KeepAspectRatio);
-        temp_image = temp_image.scaled(temp_label->size(), Qt::KeepAspectRatio);
+        engine_temp_title->setAlignment(Qt::AlignCenter);
+        engine_temp_title->setFont(font);
+        engine_temp_title->setFixedSize(central->width(), 100);
+        engine_temp_title->setGeometry(0, 195, engine_temp_title->width(), engine_temp_title->height());
 
-        //fuel_label->setPixmap(fuel_image);
-        temp_label->setPixmap(temp_image);
+        water_temp_title->setAlignment(Qt::AlignCenter);
+        water_temp_title->setFont(font);
+        water_temp_title->setFixedSize(central->width(), 100);
+        water_temp_title->setGeometry(0, 295, water_temp_title->width(), water_temp_title->height());
+
+        // oil bar
+        oil_temperature_bar->setRange(0, 200);
+        oil_temperature_bar->setFormat("");
+        oil_temperature_bar->setDataPenWidth(0);
+        oil_temperature_bar->setBarStyle(QRoundProgressBar::StyleDonut);
+        oil_temperature_bar->setDecimals(0);
+        oil_temperature_bar->setNullPosition(225);
+        oil_temperature_bar->setGeometry(0, 0, 180, 200);
+
+        QPalette palette_oil;
+        palette_oil.setBrush(QPalette::Base, Qt::NoBrush);
+        palette_oil.setBrush(QPalette::Shadow, QColor(237, 237, 237));
+        oil_temperature_bar->setPalette(palette_oil);
+
+        font.setItalic(false);
+        font.setBold(true);
+        font.setPointSize(32);
+
+        // engine label
+        engine_temp_label->setFont(font);
+        engine_temp_label->setAlignment(Qt::AlignCenter);
+        engine_temp_label->setFixedSize(200, 100);
+        engine_temp_label->setGeometry(0, 220, 200, 100);
+
+        // water label
+        water_temp_label->setFont(font);
+        water_temp_label->setAlignment(Qt::AlignCenter);
+        water_temp_label->setFixedSize(central->width(), central->height()/4);
+        water_temp_label->setGeometry(0, 320, 200, 100);
     }
 
-    void setValue(double fuel, double temperature){
-        return;
+    void setValue(double oil_temperature, double engine_temperature, double water_temperature){
+        oil_temperature_bar->setValue((int) oil_temperature);
+        oil_temperature_lcd->display((int) oil_temperature);
+        engine_temp_label->setText(QString::number(engine_temperature) + QString::fromUtf8("C°"));
+        water_temp_label->setText(QString::number(water_temperature) + QString::fromUtf8("C°"));
     }
 
 };

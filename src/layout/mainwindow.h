@@ -43,10 +43,8 @@ public:
     QAction *aboutAct;
     QAction *helpAct;
 
-    //menu
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *helpMenu;
+    //tabs
+    QTabWidget *tabMenu;
 
     //layout
     QWidget *central;
@@ -61,10 +59,11 @@ public:
     Status *status;
 
     //layoutsetup
-    void setupWidgets();
-    void setupUI();
     void setupAction();
-    void setupMenu();
+    void setupWidgets();
+    void setupTabs();
+    void setupUI();
+    void paintEvent(QPaintEvent* event);
 
     //realtime data
     int timeInterval;

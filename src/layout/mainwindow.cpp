@@ -19,19 +19,18 @@
 #include <QtWidgets>
 
 #include "mainwindow.h"
-// #include "ui_mainwindow.h"
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     central = new QWidget(this);
 
-    //background color
-    //this->setStyleSheet("QMainWindow {background: 'white';}");
+    // background color
+    // this->setStyleSheet("QMainWindow {background: 'white';}");
 
     setupAction();
     setupWidgets();
-    //setupMenu();
+    // setupTabs();
     setupUI();
 
     // timer to sample data
@@ -46,16 +45,48 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     background_label->setPixmap(background_logo);
     this->setCentralWidget(background_label);*/
 
-    //no close-minimze buttons
-    //this->setWindowFlags(Qt::FramelessWindowHint);
+    // no close-minimze buttons
+    // this->setWindowFlags(Qt::FramelessWindowHint);
 }
 
 
 //UI
 
-void MainWindow::setupUI(){
-    this->setWindowTitle(QString::fromUtf8("Quartodilitro Onboard GUI"));
-    this->setFixedSize(800, 480);
+void MainWindow::setupAction(){
+    newAct = new QAction("&New", this);
+    newAct->setShortcuts(QKeySequence::New);
+    QObject::connect(newAct, SIGNAL(triggered()), this, SLOT(newFile()));
+
+    openAct = new QAction("&Open..", this);
+    openAct->setShortcuts(QKeySequence::Open);
+    QObject::connect(openAct, SIGNAL(triggered()), this, SLOT(openFile()));
+
+    saveAct = new QAction(tr("&Save"), this);
+    saveAct->setShortcuts(QKeySequence::Save);
+    QObject::connect(saveAct, SIGNAL(triggered()), this, SLOT(save()));
+
+    exitAct = new QAction(tr("Exit&.."), this);
+    exitAct->setShortcuts(QKeySequence::Quit);
+    QObject::connect(exitAct, SIGNAL(triggered()), this, SLOT(quit()));
+
+
+    editAct = new QAction("&Settings", this);
+    QList<QKeySequence> edit_shortcut;
+    edit_shortcut.append(QKeySequence(Qt::CTRL + Qt::Key_E));
+    editAct->setShortcuts(edit_shortcut);
+    QObject::connect(editAct, SIGNAL(triggered()), this, SLOT(editDialog()));
+
+    aboutAct = new QAction("&About", this);
+    QList<QKeySequence> about_shortcut;
+    about_shortcut.append(QKeySequence(Qt::CTRL + Qt::Key_A));
+    aboutAct->setShortcuts(about_shortcut);
+    QObject::connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutDialog()));
+
+    helpAct = new QAction("&Help", this);
+    QList<QKeySequence> help_shortcut;
+    help_shortcut.append(QKeySequence(Qt::CTRL + Qt::Key_H));
+    helpAct->setShortcuts(help_shortcut);
+    QObject::connect(helpAct, SIGNAL(triggered()), this, SLOT(helpDialog()));
 }
 
 void MainWindow::setupWidgets(){
@@ -78,75 +109,48 @@ void MainWindow::setupWidgets(){
     timing_widget->setGeometry(0, 0, timing_widget->width(), timing_widget->height());
 
     //dashboard
-    dashboard_widget->setFixedSize(400, 480);
-    dashboard_widget->setGeometry(200, 0, dashboard_widget->width(), dashboard_widget->height());
+    dashboard_widget->setFixedSize(380, 480);
+    dashboard_widget->setGeometry(210, 0, dashboard_widget->width(), dashboard_widget->height());
 
     //status
-    status_widget->setFixedSize(200, 480);
-    status_widget->setGeometry(600, 0, status_widget->width(), status_widget->height());
+    status_widget->setFixedSize(190, 400);
+    status_widget->setGeometry(610, 80, status_widget->width(), status_widget->height());
 }
 
-void MainWindow::setupAction(){
-    //file menu
-    newAct = new QAction("&New", this);
-    newAct->setShortcuts(QKeySequence::New);
-    QObject::connect(newAct, SIGNAL(triggered()), this, SLOT(newFile()));
-
-    openAct = new QAction("&Open..", this);
-    openAct->setShortcuts(QKeySequence::Open);
-    QObject::connect(openAct, SIGNAL(triggered()), this, SLOT(openFile()));
-
-    saveAct = new QAction(tr("&Save"), this);
-    saveAct->setShortcuts(QKeySequence::Save);
-    QObject::connect(saveAct, SIGNAL(triggered()), this, SLOT(save()));
-
-    exitAct = new QAction(tr("Exit&.."), this);
-    exitAct->setShortcuts(QKeySequence::Quit);
-    QObject::connect(exitAct, SIGNAL(triggered()), this, SLOT(quit()));
-
-
-    //edit menu
-    editAct = new QAction("&Settings", this);
-    QList<QKeySequence> edit_shortcut;
-    edit_shortcut.append(QKeySequence(Qt::CTRL + Qt::Key_E));
-    editAct->setShortcuts(edit_shortcut);
-    QObject::connect(editAct, SIGNAL(triggered()), this, SLOT(editDialog()));
-
-    //about menu
-    aboutAct = new QAction("&About", this);
-    QList<QKeySequence> about_shortcut;
-    about_shortcut.append(QKeySequence(Qt::CTRL + Qt::Key_A));
-    aboutAct->setShortcuts(about_shortcut);
-    QObject::connect(aboutAct, SIGNAL(triggered()), this, SLOT(aboutDialog()));
-
-    helpAct = new QAction("&Help", this);
-    QList<QKeySequence> help_shortcut;
-    help_shortcut.append(QKeySequence(Qt::CTRL + Qt::Key_H));
-    helpAct->setShortcuts(help_shortcut);
-    QObject::connect(helpAct, SIGNAL(triggered()), this, SLOT(helpDialog()));
+void MainWindow::setupTabs(){
+    tabMenu = new QTabWidget(central);
+    tabMenu->addTab(new QWidget(this), "Dash");
+    tabMenu->addTab(new QWidget(this), "Plots");
+    tabMenu->addTab(new QWidget(this), "Extra");
+    tabMenu->addTab(new QWidget(this), "Settings");
 }
 
-void MainWindow::setupMenu(){
-    fileMenu = this->menuBar()->addMenu("&File");
-    fileMenu->addAction(newAct);
-    fileMenu->addAction(openAct);
-    fileMenu->addAction(saveAct);
-    fileMenu->addSeparator();
-    fileMenu->addAction(exitAct);
-    this->menuBar()->addSeparator();
-
-    editMenu = this->menuBar()->addMenu("&Edit");
-    editMenu->addAction(editAct);
-    this->menuBar()->addSeparator();
-
-    helpMenu = this->menuBar()->addMenu("&Help");
-    helpMenu->addAction(aboutAct);
-    helpMenu->addAction(helpAct);
-
-    statusbar = new QStatusBar();
-    statusBar()->showMessage("Wait for input..");
+void MainWindow::setupUI(){
+    this->setWindowTitle(QString::fromUtf8("Quartodilitro Onboard GUI"));
+    this->setFixedSize(800, 480);
 }
 
+void MainWindow::paintEvent(QPaintEvent* event) {
+    QPainter p;
+    p.begin(this);
+    p.setPen(QPen(QColor(0, 0, 255), 5, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin));
+
+    // sectors
+    p.drawLine(195, 0, 195, 480);
+    p.drawLine(0, 100, 195, 100);
+    p.drawLine(0, 225, 195, 225);
+    p.drawLine(0, 350, 195, 350);
+
+    // oil
+    p.drawLine(600, 75, 800, 75);
+
+    // temperatures
+    p.drawLine(600, 400, 800, 400);
+    p.drawLine(600, 300, 800, 300);
+    p.drawLine(600, 75, 600, 480);
+
+    p.end();
+}
 
 //dialogs
 
@@ -187,7 +191,7 @@ void MainWindow::aboutDialog(){
     statusBar()->showMessage("About this GUI");
     QString aboutText = "This software is a sample telemetry software developed for Quartodilitro UNIPD.\n"
                         "Copyright (C) 2016 Quartodilitro. All right Reserved.\n"
-                        "Contact developers: info@quartodilitro.it";
+                        "Contact developers: quartodilitro@gmail.com";
     QMessageBox::about(this, "Quartodilitro Onboard GUI", aboutText);
 
 }
@@ -225,16 +229,21 @@ void MainWindow::updateDataSlot(){
     qsrand((uint)time.msec());
 
     // generating pseudo-random values
-    int rpm = qrand() % 15000 + 1;
-    int gear = qrand() % 8;
-    double speed = qrand() % 300 + double(qrand() % 1000) / 1000;
-    double sector_0 = qrand() % 30 + double(qrand() % 1000) / 1000;
-    double sector_1 = qrand() % 25 + double(qrand() % 1000) / 1000;
-    double sector_2 = qrand() % 25 + double(qrand() % 1000) / 1000;
+    int thousand_random = qrand() % 1000 + 1;  // integer in [1; 1000]
+    int rpm = thousand_random * 15;
+    int gear = thousand_random / 150;
+    double speed = thousand_random / 3;
+    double sector_0 = thousand_random % 30;
+    double sector_1 = thousand_random % 20;
+    double sector_2 = thousand_random % 40;
+    double oil_pressure = thousand_random / 5;
+    double engine_temp = thousand_random / 6;
+    double water_temp = thousand_random / 10;
 
     this->dashboard->rpm_indicator->setValue(rpm, gear);
     this->dashboard->speed_indicator->setValue(speed);
     this->timing->setValue(sector_0, sector_1, sector_2);
+    this->status->setValue(oil_pressure, engine_temp, water_temp);
 }
 
 void MainWindow::setRefreshRate(int ms){

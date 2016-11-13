@@ -42,26 +42,26 @@ public:
         central = new QWidget(parent);
         central->setFixedSize(400, 480);
 
-        speed_room = new QWidget(central);
-        speed_room->setFixedSize(300, 75);
-
-        rpm_room = new QWidget(central);
-        rpm_room->setFixedSize(400, 400);
-
-        //widgets
-        rpm_indicator = new Rpm(rpm_room);
-        speed_indicator = new Speed(speed_room);
-
         setupUI();
     }
 
     void setupUI(){
-        //layout
-        speed_room->setGeometry(50, 0, speed_room->width(), speed_room->height());
-        speed_indicator->setGeometry(0, 0, speed_room->width(), speed_room->height());
+        speed_room = new QWidget(central);
+        speed_room->setFixedSize(300, 75);
 
-        rpm_room->setGeometry(0, 80, rpm_room->width(), rpm_room->height());
+        rpm_room = new QWidget(central);
+        rpm_room->setFixedSize(380, 380);
+
+        // widgets
+        rpm_indicator = new Rpm(rpm_room);
+        speed_indicator = new Speed(speed_room);
+
+        // layout
+        rpm_room->setGeometry(0, 0, rpm_room->width(), rpm_room->height());
         rpm_indicator->setGeometry(0, 0, rpm_room->width(), rpm_room->height());
+
+        speed_room->setGeometry(50, 400, speed_room->width(), speed_room->height());
+        speed_indicator->setGeometry(0, 0, speed_room->width(), speed_room->height());
     }    
 
     void setValue(int rpm, int gear, double speed){

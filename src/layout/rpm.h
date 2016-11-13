@@ -31,8 +31,9 @@ public:
     QWidget *central;
     QRoundProgressBar *bar;
     Gear *gear;
+    QLCDNumber *rpm_label;
 
-    //palette to color high/low RPM values
+    // palette to color high/low RPM values
     QPalette high_rpm;
     QPalette mid_rpm;
     QPalette low_rpm;
@@ -42,33 +43,49 @@ public:
         central = new QWidget(parent);
         central->setFixedSize(parent->size());
         bar = new QRoundProgressBar(central);
+        rpm_label = new QLCDNumber(central);
         gear = new Gear(central);
 
-        //palette
+        // palette
         high_rpm.setColor(QPalette::Highlight, Qt::red);
+        high_rpm.setBrush(QPalette::Base, Qt::NoBrush);
+        high_rpm.setBrush(QPalette::Shadow, QColor(237, 237, 237));
+
         mid_rpm.setColor(QPalette::Highlight, Qt::yellow);
+        mid_rpm.setBrush(QPalette::Base, Qt::NoBrush);
+        mid_rpm.setBrush(QPalette::Shadow, QColor(237, 237, 237));
+
         low_rpm.setColor(QPalette::Highlight, Qt::black);
+        low_rpm.setBrush(QPalette::Base, Qt::NoBrush);
+        low_rpm.setBrush(QPalette::Shadow, QColor(237, 237, 237));
 
         setupUI();
     }
 
     void setupUI(){
         setupBar();
+
+        QFont font;
+        font.setItalic(false);
+        font.setPointSize(32);
+
+        rpm_label->setDigitCount(5);
+        rpm_label->setGeometry(100, 250, 200, 100);
     }
 
     void setupBar(){
-        //bar settings
+        // bar settings
         bar->setRange(0, 20000);
         bar->setFormat("");
         bar->setDataPenWidth(0);
         bar->setBarStyle(QRoundProgressBar::StyleDonut);
         bar->setDecimals(0);
 
-        //palette
+        // palette
         bar->setValue(0);
         bar->setNullPosition(225);
 
-        //geometry
+        // geometry
         bar->setGeometry(0, 0, central->width(), central->height());
     }
 
@@ -82,6 +99,8 @@ public:
             bar->setPalette(this->low_rpm);
         }
         bar->setValue(rpm);
+        rpm_label->display(rpm);
+
         this->gear->setValue(gear);
     }
 };

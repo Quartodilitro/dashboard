@@ -23,7 +23,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     layout/mainwindow.cpp \
-    layout/qroundprogressbar.cpp
+    layout/qroundprogressbar.cpp \
+    layout/dash.cpp
 
 HEADERS  += mainwindow.h \
     layout/mainwindow.h \
@@ -35,4 +36,5 @@ HEADERS  += mainwindow.h \
     layout/speed.h \
     layout/gear.h \
     layout/timing.h \
-    layout/status.h
+    layout/status.h \
+    layout/dash.h

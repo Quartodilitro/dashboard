@@ -35,8 +35,6 @@ public:
         central = new QWidget(parent);
         central->setFixedSize(parent->size());
 
-        frame = new QFrame(central);
-
         speed = new QLabel(central);
         title = new QLabel("SPEED", central);
 
@@ -44,12 +42,6 @@ public:
     }
 
     void setupUI(){
-        //frame
-        frame->setFrameStyle(QFrame::Box);
-        frame->setLineWidth(3);
-        frame->setFixedSize(central->size());
-        frame->setGeometry(0, 0, frame->width(), frame->height());
-
         //label
         QFont font;
         font.setItalic(true);
@@ -58,7 +50,7 @@ public:
         title->setAlignment(Qt::AlignCenter);
         title->setFont(font);
         title->setFixedSize(central->width(), 20);
-        title->setGeometry(0, 2, title->width(), title->height());
+        title->setGeometry(0, 0, title->width(), title->height());
 
         font.setPointSize(36);
         font.setItalic(false);
@@ -67,11 +59,11 @@ public:
         speed->setAlignment(Qt::AlignCenter);
         speed->setFont(font);
         speed->setFixedSize(central->size());
-        speed->setGeometry(0, 0, speed->width(), speed->height());
+        speed->setGeometry(0, 5, speed->width(), speed->height());
     }
 
     void setValue(double value){
-        speed->setText(QString::number(value));
+        speed->setText(QString::number(value) + QString::fromUtf8(" KPH"));
     }
 };
 
