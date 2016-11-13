@@ -5,12 +5,12 @@ ___
 ### What is this repository for? ###
 * on board dashboard for Quartodilitro pilot
 * current version
-	[~~0.1~~](desktop/0.1)
-	[~~0.2~~](desktop/0.2)
-	[~~0.3~~](desktop/0.3)
-	[~~0.4~~](desktop/0.4)
-	[~~0.5~~](desktop/0.5)
-    [0.6](desktop/0.6)
+	~~0.1~~
+	~~0.2~~
+	~~0.3~~
+	~~0.4~~
+	~~0.5~~
+    0.6
 
 ### How do I get set up? ###
 * install [Qt](http://www.qt.io/) libraries in your favourite OS, then grab a copy of the sources
