@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/image">
+        <file alias="logo">res/img/logo.png</file>
+        <file alias="logo_bw">res/img/logobw.png</file>
+        <file alias="left_black">res/img/left_black.png</file>
+        <file alias="left_white">res/img/left_white.png</file>
+        <file alias="right_black">res/img/right_black.png</file>
+        <file alias="right_white">res/img/right_white.png</file>
+    </qresource>
+    <qresource prefix="/font">
+        <file alias="orbitron">res/font/orbitron/orbitron-light.ttf</file>
+        <file alias="liberation">res/font/liberation/LiberationSans-Bold.ttf</file>
+    </qresource>
+    <qresource prefix="/circuit">
+        <file alias="aragon_black">res/img/circuit/aragon/black.png</file>
+        <file alias="aragon_white">res/img/circuit/aragon/white.png</file>
+        <file alias="lagunaseca_black">res/img/circuit/lagunaseca/black.png</file>
+        <file alias="lagunaseca_white">res/img/circuit/lagunaseca/white.png</file>
+        <file alias="mugello_black">res/img/circuit/mugello/black.png</file>
+        <file alias="mugello_white">res/img/circuit/mugello/white.png</file>
+    </qresource>
+</RCC>
