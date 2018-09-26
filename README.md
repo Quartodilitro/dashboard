@@ -1,6 +1,8 @@
-#Quartodilitro On-board GUI
-####Official UI for Motostudent [Quartodilitro bike](http://www.quartodilitro.it/).
-___
+<div align="center">
+<h1>Quartodilitro | On-board GUI </h1>
+<em>Official UI for Motostudent <a href="http://www.quartodilitro.it/">Quartodilitro bike</a></em></br></br>
+</div>
+
 
 ### What is this repository for? ###
 * on board dashboard for Quartodilitro pilot
@@ -28,9 +30,6 @@ A whole bunch of input is to be handled, and this requires expert analysis but g
 Can be found in [this](screenshot/) folder.
 
 ### Who do I talk to? ###
-* contact us at [quartodilitro@gmail.com](mailto:quartodilitro@gmail.com)
-* [visit](http://www.quartodilitro.it/#) our webpage
-* [like](https://www.facebook.com/quartodilitroUNIPD/?fref=ts) our Facebook page
-
-### LICENSE ###
-Apache License Version 2.0, January 2004 (see [LICENSE](LICENSE)).
+- contact us at [quartodilitro@gmail.com](mailto:https://www.facebook.com/quartodilitroUNIPD)
+- [visit](https://www.quartodilitro.com/) our webpage
+- [like](https://www.facebook.com/quartodilitroUNIPD) our Facebook page
