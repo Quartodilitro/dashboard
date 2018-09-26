@@ -1,6 +1,6 @@
 <div align="center">
 <h1>Quartodilitro | On-board GUI </h1>
-<em>Official UI for Motostudent <a href="http://www.quartodilitro.it/">Quartodilitro bike</a></em></br></br>
+<em>Official UI for Motostudent <a href="https://www.quartodilitro.com/">Quartodilitro bike</a></em></br></br>
 </div>
 
 
