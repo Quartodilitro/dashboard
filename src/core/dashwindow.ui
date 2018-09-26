@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DashWindow</class>
+ <widget class="QMainWindow" name="DashWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>966</width>
+    <height>602</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>30</y>
+      <width>491</width>
+      <height>451</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QRoundProgressBar" name="rpmBar" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <widget class="QWidget" name="layoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>90</y>
+          <width>491</width>
+          <height>304</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+          <widget class="QLabel" name="speedLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>speed</string>
+           </property>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+          <widget class="QLabel" name="gearLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>gear</string>
+           </property>
+          </widget>
+         </item>
+         <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+          <widget class="QLabel" name="rpmLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>rpm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QLabel" name="logoLabel">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>380</y>
+          <width>471</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QLabel" name="title">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>0</y>
+      <width>721</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Dashboard</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="rightTabButton">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>0</y>
+      <width>54</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="timeTable">
+    <property name="geometry">
+     <rect>
+      <x>649</x>
+      <y>230</y>
+      <width>141</width>
+      <height>237</height>
+     </rect>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="rowCount">
+     <number>5</number>
+    </property>
+    <property name="columnCount">
+     <number>1</number>
+    </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>80</number>
+    </attribute>
+    <attribute name="horizontalHeaderMinimumSectionSize">
+     <number>26</number>
+    </attribute>
+    <attribute name="verticalHeaderDefaultSectionSize">
+     <number>47</number>
+    </attribute>
+    <row>
+     <property name="text">
+      <string>Sector 1</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Sector 2</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Sector 3</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Sector 4</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Lap</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>Current</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </column>
+    <item row="0" column="0">
+     <property name="text">
+      <string>43&quot;456</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="1" column="0">
+     <property name="text">
+      <string>57&quot;198</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="2" column="0">
+     <property name="text">
+      <string>29&quot;560</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="3" column="0">
+     <property name="text">
+      <string>34&quot;132</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="4" column="0">
+     <property name="text">
+      <string>2'44&quot;346</string>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+   </widget>
+   <widget class="IndicatorLabel" name="bpmIndicator" native="true">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>380</y>
+      <width>131</width>
+      <height>80</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="mapLabel">
+    <property name="geometry">
+     <rect>
+      <x>648</x>
+      <y>73</y>
+      <width>141</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>2</width>
+      <height>2</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3"/>
+   </widget>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>title</zorder>
+   <zorder>rightTabButton</zorder>
+   <zorder>timeTable</zorder>
+   <zorder>bpmIndicator</zorder>
+   <zorder>rpmBar</zorder>
+   <zorder>mapLabel</zorder>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>IndicatorLabel</class>
+   <extends>QWidget</extends>
+   <header location="global">gui/indicatorlabel.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QRoundProgressBar</class>
+   <extends>QWidget</extends>
+   <header>gui/qroundprogressbar.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
